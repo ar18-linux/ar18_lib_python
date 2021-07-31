@@ -1,17 +1,19 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_14:47:20
-# Script template version 2021-07-31_13:01:45
+# ar18 Script version 2021-07-31_15:40:37
+# Script template version 2021-07-31_15:39:48
 
 import os
 import getpass
+import sys
 
 $AR18_LIB_XONSH = "ar18_lib_xonsh"
 $RAISE_SUBPROC_ERROR = True
+$XONSH_SHOW_TRACEBACK = True
 
 
 @events.on_exit
 def test():
-  #rm -rf @(f"/tmp/xonsh/{$AR18_PARENT_PROCESS}")
+  rm -rf @(f"/tmp/xonsh/{$AR18_PARENT_PROCESS}")
   print("on_exit")
 
 

@@ -1,17 +1,18 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_15:23:11
-# Function template version 2021-07-31_13:01:45
+# ar18 Script version 2021-07-31_15:40:37
+# Function template version 2021-07-31_15:39:48
 
 try:
   _test = ar18.script.include
 except:
-  file_path = os.path.abspath(script_dir() + "/../Struct.xsh")
+  file_path = os.path.abspath(script_dir() + "/../Struct.py")
   if not os.path.exists(file_path):
     old_cwd = os.getcwd()
     cd @(os.path.dirname(file_path))
-    curl -f -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/Struct.xsh")
+    curl -f -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/Struct.py")
     cd @(old_cwd)
-  source @(file_path)
+  sys.path.append(os.path.abspath(os.path.dirname(__file__) + "/.."))
+  from Struct import Ar18
 ##############################FUNCTION_START#################################
 
 def temp_func(item):
