@@ -1,11 +1,12 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_12:18:59
+# ar18 Script version 2021-07-31_12:19:07
 # Script template version 2021-07-17_11:57:44
 
 import os
 import getpass
 
 $AR18_LIB_XONSH = "ar18_lib_xonsh"
+
 
 
 
