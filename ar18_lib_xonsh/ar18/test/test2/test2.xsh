@@ -1,11 +1,12 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_12:59:11
-# Script template version 2021-07-31_12:32:38
+# ar18 Script version 2021-07-31_14:47:20
+# Script template version 2021-07-31_13:01:45
 
 import os
 import getpass
 
 $AR18_LIB_XONSH = "ar18_lib_xonsh"
+$RAISE_SUBPROC_ERROR = True
 
 
 @events.on_exit
@@ -35,7 +36,9 @@ def get_environment():
 
 
 def import_include():
-  if not ar18.script.include:
+  try:
+    _test = ar18.script.include
+  except:
     # Check if ar18_lib_xonsh is installed on the system.
     # If it cannot be found, fetch it from github.com.
     file_path = ""
@@ -46,11 +49,10 @@ def import_include():
       file_path = f"{file_path}/{$AR18_LIB_XONSH}/ar18/include.xsh"
     if not os.path.exists(file_path):
       print("get from github")
-      curl -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/script/include.xsh") a> /dev/null
+      res = !(curl -f -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/script/include.xsh")) #a> /dev/null
+      print(res.rtn)
     #source @(file_path)
     print(45)
-  else:
-    print("object exists")
 
 
 get_user_name()

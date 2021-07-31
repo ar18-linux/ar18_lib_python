@@ -1,16 +1,17 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_12:24:52
-# Script template version 2021-07-31_12:32:38
+# ar18 Script version 2021-07-31_14:47:20
+# Script template version 2021-07-31_13:01:45
 
 import os
 import getpass
 
 $AR18_LIB_XONSH = "ar18_lib_xonsh"
+$RAISE_SUBPROC_ERROR = True
 
 
 @events.on_exit
 def test():
-  rm -rf @(f"/tmp/xonsh/{$AR18_PARENT_PROCESS}")
+  #rm -rf @(f"/tmp/xonsh/{$AR18_PARENT_PROCESS}")
   print("on_exit")
 
 
@@ -22,8 +23,8 @@ def get_user_name():
 def get_parent_process():
   if "AR18_PARENT_PROCESS" not in {...}:
     $AR18_PARENT_PROCESS = os.getpid()
-    mkdir -p @(f"/tmp/xonsh/{$AR18_PARENT_PROCESS}")
-    print($AR18_PARENT_PROCESS)
+    $AR18_TEMP_DIR = f"/tmp/xonsh/{$AR18_PARENT_PROCESS}"
+    mkdir -p @($AR18_TEMP_DIR)
 
 
 def script_dir():
@@ -35,22 +36,28 @@ def get_environment():
 
 
 def import_include():
-  if not ar18.script.include:
+  try:
+    _test = ar18.script.include
+  except:
     # Check if ar18_lib_xonsh is installed on the system.
     # If it cannot be found, fetch it from github.com.
     file_path = ""
     install_dir_path = f"/home/{$AR18_USER_NAME}/.config/ar18/{$AR18_LIB_XONSH}/INSTALL_DIR"
     if os.path.exists(install_dir_path):
       file_path = open(install_dir_path).read()
-    if os.path.exists(file_path):
-      file_path = f"{file_path}/{$AR18_LIB_XONSH}/ar18/include.xsh"
+      if os.path.exists(file_path):
+        file_path = f"{file_path}/{$AR18_LIB_XONSH}/ar18/include.xsh"
+    else:
+      file_path = f"{$AR18_TEMP_DIR}/{$AR18_LIB_XONSH}/ar18/script/include.xsh"
+      mkdir -p @(os.path.dirname(file_path))
     if not os.path.exists(file_path):
       print("get from github")
-      curl -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/script/include.xsh") a> /dev/null
-    #source @(file_path)
+      old_cwd = os.getcwd()
+      cd @(os.path.dirname(file_path))
+      curl -f -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/script/include.xsh")
+      cd @(old_cwd)
+    source @(file_path)
     print(45)
-  else:
-    print("object exists")
 
 
 get_user_name()
@@ -74,6 +81,7 @@ else:
 #################################SCRIPT_START##################################
 print("xsh1")
 print(script_dir())
+exit(0)
 source @(f"{script_dir()}/test2/test2.xsh")
 print(script_dir())
 f3()
