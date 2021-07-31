@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_21:26:30
+# ar18 Script version 2021-07-31_23:34:39
 # Script template version 2021-07-31_15:39:48
 
 import os
@@ -37,27 +37,33 @@ def get_environment():
   pass
 
 
+def retrieve_file(url, dest_dir):
+  old_cwd = os.getcwd()
+  cd @(os.path.dirname(dest_dir))
+  curl -f -O @(url)
+  cd @(old_cwd)
+  
+
 def import_include():
   try:
-    _test = ar18.script.include
+    assert ar18.script.include
   except:
     # Check if ar18_lib_xonsh is installed on the system.
     # If it cannot be found, fetch it from github.com.
-    file_path = ""
     install_dir_path = f"/home/{$AR18_USER_NAME}/.config/ar18/{$AR18_LIB_XONSH}/INSTALL_DIR"
     if os.path.exists(install_dir_path):
       file_path = open(install_dir_path).read()
       if os.path.exists(file_path):
-        file_path = f"{file_path}/{$AR18_LIB_XONSH}/ar18/include.xsh"
+        file_path = f"{file_path}/{$AR18_LIB_XONSH}/ar18/script/include.xsh"
     else:
       file_path = f"{$AR18_TEMP_DIR}/{$AR18_LIB_XONSH}/ar18/script/include.xsh"
       mkdir -p @(os.path.dirname(file_path))
     if not os.path.exists(file_path):
       print("get from github")
-      old_cwd = os.getcwd()
-      cd @(os.path.dirname(file_path))
-      curl -f -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/script/include.xsh")
-      cd @(old_cwd)
+      retrieve_file(
+        f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/script/include.xsh",
+        os.path.dirname(file_path)
+      )
     source @(file_path)
     print(45)
 
@@ -68,7 +74,14 @@ import_include()
 #################################SCRIPT_START##################################
 print("xsh1")
 print(script_dir())
+print("username",$AR18_USER_NAME,__file__)
 ar18.script.include("sudo.is_member")
+ar18.script.include("sudo.ask_for_password")
+ar18.script.include("sudo.exec")
+res=ar18.sudo.is_member()
+print("res",res)
+ar18.sudo.ask_for_password()
+#ar18.sudo.exec("mkdir", "/tmp/foo45")
 exit(0)
 source @(f"{script_dir()}/test2/test2.xsh")
 print(script_dir())

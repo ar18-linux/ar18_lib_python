@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_21:26:30
+# ar18 Script version 2021-07-31_23:34:39
 # Function template version 2021-07-31_15:39:48
 
 try:
@@ -7,12 +7,13 @@ try:
 except:
 ##############################FUNCTION_START#################################
 
-  def temp_func(silent:int=None):
-    if not silent:
-      silent = 0
+  def temp_func(silent:int=0):
     ret = False
-    res = $(sudo -vn e>o)
-    if res.find("sudo: a password is required"):
+    res = !(sudo -vn e>o)
+    $RAISE_SUBPROC_ERROR = False
+    res = str(res)
+    $RAISE_SUBPROC_ERROR = True
+    if res.find("sudo: a password is required") != -1:
       ret = True
     else:
       if not res.find("Sorry, user") and not silent:
@@ -21,8 +22,4 @@ except:
 
 ###############################FUNCTION_END##################################
   print("assigning")
-  try:
-    ar18
-  except:
-    ar18 = Ar18.Struct()
   ar18.sudo.is_member = temp_func

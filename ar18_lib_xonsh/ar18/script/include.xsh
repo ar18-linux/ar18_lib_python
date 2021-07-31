@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_21:26:30
+# ar18 Script version 2021-07-31_23:34:39
 # Function template version 2021-07-31_15:39:48
 
 try:
@@ -10,28 +10,25 @@ except:
   file_path = os.path.abspath(script_dir() + "/../Struct.py")
   print(file_path)
   if not os.path.exists(file_path):
-    old_cwd = os.getcwd()
-    cd @(os.path.dirname(file_path))
-    curl -f -O @(f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/Struct.py")
-    cd @(old_cwd)
-  sys.path.append(os.path.abspath(os.path.dirname(__file__) + "/.."))
+    retrieve_file(
+      f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/Struct.py",
+      os.path.dirname(file_path)
+    )
+  parent_dir = os.path.abspath(os.path.dirname(__file__) + "/..")
+  sys.path.append(parent_dir)
   from Struct import Ar18
-  def temp_func(item):
-    print("importing")
-    import os
-    import sys
-    script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-    script_path = os.path.abspath(sys.argv[0])
-    ar18_version_checker_module_name = "ar18_lib_xonsh"
-    #https://raw.githubusercontent.com/ar18-linux/ar18_lib_xonsh/master/VERSION
-    #https://raw.githubusercontent.com/ar18-linux/ar18_lib_xonsh/VERSION
-    wget @(f"https://raw.githubusercontent.com/ar18-linux/{ar18_version_checker_module_name}/master/VERSION") -P /tmp
-    echo @(item)
+  ar18 = Ar18.Struct()
+  ar18.www.retrieve = retrieve_file
+  def temp_func(item:str):
+    module_name, function_name = item.split(".")
+    file_path = parent_dir + "/" + module_name + "/" + function_name + ".xsh"
+    if not os.path.exists(file_path):
+      ar18.www.retrieve(
+        f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/{module_name}/{function_name}.xsh",
+        os.path.dirname(file_path)
+      )
+    source @(file_path)
 
 ###############################FUNCTION_END##################################
   print("assigning")
-  try:
-    ar18
-  except:
-    ar18 = Ar18.Struct()
   ar18.script.include = temp_func

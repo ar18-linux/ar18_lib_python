@@ -15,14 +15,11 @@ class Ar18:
         for key, item in object.items():
           if isinstance(item, dict):
             self[key] = Ar18.Struct(item)
-            #self.__dict__.__setitem__(key, Struct(item))
           else:
             self[key] = item
-            #self.__dict__.__setitem__(key, item)
   
     def __setattr__(self, key, value):
       if not key in self.__dict__:
-        print("attr", key)
         self.__dict__["__count"] = self.__dict__["__count"] + 1
       if isinstance(value, dict):
         self.__dict__[key] = Ar18.Struct(value, self)
@@ -31,7 +28,6 @@ class Ar18:
   
     def __setitem__(self, key, value):
       if not key in self.__dict__:
-        print("item", key)
         self.__dict__["__count"] = self.__dict__["__count"] + 1
       if isinstance(value, dict):
         self.__dict__[key] = Ar18.Struct(value, self)
