@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_12:24:52
+# ar18 Script version 2021-07-31_12:59:11
 # Script template version 2021-07-31_12:32:38
 
 import os
@@ -81,6 +81,7 @@ def exec():
     print(script_dir())
   print(script_dir())
   print("exit2")
+
   return
 exec()
 #ar18.script.ximport("version_check")
