@@ -70,6 +70,7 @@ else:
 #################################SCRIPT_START##################################
 exit(0)
 
+
 echo @(os.path.abspath(sys.argv[0]))
 
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
