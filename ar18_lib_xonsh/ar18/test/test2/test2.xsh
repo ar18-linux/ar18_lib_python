@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_15:40:37
+# ar18 Script version 2021-07-31_21:26:30
 # Script template version 2021-07-31_15:39:48
 
 import os
@@ -65,21 +65,6 @@ def import_include():
 get_user_name()
 get_parent_process()
 import_include()
-
-"""
-if not ar18_script_include:
-  mkdir -p "/tmp/${ar18_parent_process}"
-  old_cwd = $(${PWD})
-  cd "/tmp/${ar18_parent_process}"
-  curl -O https://raw.githubusercontent.com/ar18-linux/ar18_lib_bash/master/ar18_lib_bash/script/import.sh >/dev/null 2>&1 && . "/tmp/${ar18_parent_process}/import.sh"
-  export ar18_script_import
-  cd "${old_cwd}"
-
-if installed:
-  source @(f"{ar18_lib_install_dir}/ar18/script/include.xsh")
-else:
-  pass
-"""
 #################################SCRIPT_START##################################
 def f3():
   print("f3")

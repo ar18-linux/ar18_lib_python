@@ -39,24 +39,20 @@ class Ar18:
         self.__dict__[key] = value
   
     def __getitem__(self, item):
-      """ If not found in object, look up parent chain until found or return None. """
       if item not in self.__dict__:
         if self.__dict__["__parent"]:
           return self.__dict__["__parent"]().__getitem__(item)
         else:
-          return None
-      else:
-        return self.__dict__[item]
+          self.__dict__.__setitem__(item, Ar18.Struct())
+      return self.__dict__[item]
   
     def __getattr__(self, item):
-      """ If not found in object, look up parent chain until found or return None. """
       if item not in self.__dict__:
         if self.__dict__["__parent"]:
           return self.__dict__["__parent"]().__getattr__(item)
         else:
-          return None
-      else:
-        return self.__dict__[item]
+          self.__dict__.__setitem__(item, Ar18.Struct())
+      return self.__dict__[item]
   
     def __bool__(self):
       return self.__dict__["__count"] != 0
@@ -136,21 +132,12 @@ def test():
     "ha": "llo"
   }
   assert s.d1.foo.ha == "llo"
-  try:
-    hg = s.d1.foo.non_existant_key
-    assert hg is None
-  except KeyError:
-    pass
-  try:
-    t = s.h.j
-    raise Exception("must raise AttributeError")
-  except AttributeError:
-    pass
-  try:
-    t = s["h"]["j"]
-  except TypeError:
-    pass
-  assert t is None
+  hg = s.d1.foo.non_existant_key
+  assert not hg
+  t = s.h.j
+  assert not t
+  t = s["h"]["j"]
+  assert not t
   assert s.count() == 7
   s["65"] = {"78": 90}
   assert s.count() == 8
