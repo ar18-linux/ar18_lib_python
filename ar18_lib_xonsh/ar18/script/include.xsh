@@ -1,5 +1,10 @@
 #! /usr/bin/env xonsh
 
+try:
+  _test = ar18.script.include
+except:
+  print(script_dir())
+
 def exec():
   if not ar18_object:
     print("creating class")
