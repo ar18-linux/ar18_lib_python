@@ -1,6 +1,6 @@
 #! /usr/bin/env xonsh
-# ar18
-
+# ar18 Script version !!VERSION!!
+# Script template version 2021-07-17_11:57:44
 
 import os
 import getpass
@@ -69,7 +69,6 @@ else:
 """
 #################################SCRIPT_START##################################
 exit(0)
-
 echo @(os.path.abspath(sys.argv[0]))
 
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -93,5 +92,7 @@ s["foo"] = {"tu":2}
 exit(0)
 #ar18.script.ximport("version_check")
 #source @(f"{script_dir}/../script/import.xsh")
+
 ##################################SCRIPT_END###################################
 
+#end
