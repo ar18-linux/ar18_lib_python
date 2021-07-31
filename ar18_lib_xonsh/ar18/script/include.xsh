@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_15:50:33
+# ar18 Script version 2021-07-31_15:54:52
 # Function template version 2021-07-31_15:39:48
 
 try:
@@ -34,8 +34,6 @@ try:
   _test = ar18
 except:
   ar18 = Ar18.Struct()
-try:
-  _test = ar18.script
-except:
+if not ar18.script:
   ar18.script = Ar18.Struct()
 ar18.script.include = temp_func
