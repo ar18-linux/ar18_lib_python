@@ -4,7 +4,7 @@ try:
   _test = ar18.script.include
 except:
   file_path = os.path.abspath(script_dir() + "/../Struct.xsh")
-  print(file_name)
+  print(file_path)
   if not os.path.exists(file_path):
     old_cwd = os.getcwd()
     cd @(os.path.dirname(file_path))
