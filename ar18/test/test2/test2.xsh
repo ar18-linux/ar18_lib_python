@@ -10,6 +10,7 @@ $AR18_LIB_XONSH = "ar18_lib_xonsh"
 
 
 
+
 @events.on_exit
 def test():
   rm -rf @(f"/tmp/xonsh/{$AR18_PARENT_PROCESS}")
