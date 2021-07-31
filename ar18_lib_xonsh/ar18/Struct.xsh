@@ -1,5 +1,4 @@
 #! /usr/bin/env xonsh
-# ar18
 
 import weakref
 

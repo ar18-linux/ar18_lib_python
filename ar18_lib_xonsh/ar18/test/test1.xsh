@@ -1,14 +1,11 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_12:23:19
-# Script template version 2021-07-17_11:57:44
+# ar18 Script version 2021-07-31_12:24:52
+# Script template version 2021-07-31_12:32:38
 
 import os
 import getpass
 
 $AR18_LIB_XONSH = "ar18_lib_xonsh"
-
-
-
 
 
 @events.on_exit
@@ -29,8 +26,12 @@ def get_parent_process():
     print($AR18_PARENT_PROCESS)
 
 
-def get_environment():
+def script_dir():
+  return os.path.abspath(os.path.dirname(__file__))
 
+
+def get_environment():
+  pass
 
 
 def import_include():
@@ -71,7 +72,20 @@ else:
   pass
 """
 #################################SCRIPT_START##################################
+print("xsh1")
+print(script_dir())
+source @(f"{script_dir()}/test2/test2.xsh")
+print(script_dir())
+f3()
+print("exit1")
 exit(0)
+
+
+
+
+
+
+
 echo @(os.path.abspath(sys.argv[0]))
 
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))

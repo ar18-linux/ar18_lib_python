@@ -1,6 +1,6 @@
 #! /usr/bin/env xonsh
-# ar18
-
+# ar18 Script version 2021-07-31_12:24:52
+# Script template version 2021-07-31_12:32:38
 
 import os
 import getpass
@@ -26,8 +26,12 @@ def get_parent_process():
     print($AR18_PARENT_PROCESS)
 
 
-def get_environment():
+def script_dir():
+  return os.path.abspath(os.path.dirname(__file__))
 
+
+def get_environment():
+  pass
 
 
 def import_include():
@@ -68,35 +72,20 @@ else:
   pass
 """
 #################################SCRIPT_START##################################
-exit(0)
-
-
-
-
-
-
-echo @(os.path.abspath(sys.argv[0]))
-
-script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-script_path = os.path.abspath(sys.argv[0])
-print(script_dir)
-echo @(script_dir)
-echo ${script_dir}
-
-source @(f"{script_dir}/../Struct.xsh")
-test()
-exit(0)
-d={"s":5,"h":{"g":7}}
-print(d)
-s = Struct(d)
-print(s["h"]["g"])
-print(s)
-exit(0)
-s.boo = "hoo"
-s["67"] = "huju"
-s["foo"] = {"tu":2}
-exit(0)
+def f3():
+  print("f3")
+  print(script_dir())
+def exec():
+  print("xsh2")
+  def f2():
+    print(script_dir())
+  print(script_dir())
+  print("exit2")
+  return
+exec()
 #ar18.script.ximport("version_check")
 #source @(f"{script_dir}/../script/import.xsh")
+
 ##################################SCRIPT_END###################################
 
+#end
