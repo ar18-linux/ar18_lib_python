@@ -10,6 +10,24 @@ def install_pip_package(package):
 
 class Ar18:
   class Struct:
+    class TeamIterator:
+      def __init__(self, parent):
+        self.parent = parent
+        self.index = 0
+        self.keys = list(parent.__dict__)
+
+      def __next__(self):
+        if self.index < len(self.keys):
+          #print(self.keys[self.index][0:2])
+          key = self.keys[self.index]
+          self.index += 1
+          if key[0:2] != "__":
+            result = self.parent.__dict__[key]
+            return result
+          else:
+            return self.__next__()
+        raise StopIteration
+
     try:
       import json5
     except ModuleNotFoundError:
@@ -22,7 +40,10 @@ class Ar18:
       else:
         self.__dict__["__parent"] = None
       if isinstance(object, str):
-        object = self.json5.loads(open(object).read())
+        try:
+          object = self.json5.loads(open(object).read())
+        except ValueError:
+          object = None
       if isinstance(object, dict):
         for key, item in object.items():
           if isinstance(item, dict):
@@ -74,6 +95,9 @@ class Ar18:
       if key in self.__dict__:
         self.__dict__["__count"] = self.__dict__["__count"] - 1
         del self.__dict__[key]
+
+    def __iter__(self):
+      return self.TeamIterator(self)
   
     def __repr__(self, indent=2):
       s_indent = " " * indent
@@ -89,6 +113,9 @@ class Ar18:
             ret += s_indent + "\"" + key + "\": " + item.__repr__() + "\n"
       ret += " " * (indent - 2) + "}\n"
       return ret
+
+    def items(self):
+      return {k: v for k, v in self.__dict__.items() if not k.startswith("__")}.items()
   
     def count(self):
       return self.__dict__["__count"]
