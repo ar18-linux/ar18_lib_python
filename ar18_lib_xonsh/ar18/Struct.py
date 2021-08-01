@@ -10,7 +10,7 @@ def install_pip_package(package):
 
 class Ar18:
   class Struct:
-    class TeamIterator:
+    class Iterator:
       def __init__(self, parent):
         self.parent = parent
         self.index = 0
@@ -52,18 +52,16 @@ class Ar18:
             self[key] = item
   
     def __setattr__(self, key, value):
-      if not key in self.__dict__:
-        self.__dict__["__count"] = self.__dict__["__count"] + 1
-      if isinstance(value, dict):
-        self.__dict__[key] = Ar18.Struct(value, self)
-      else:
-        self.__dict__[key] = value
+      return self.__setitem__(key, value)
   
     def __setitem__(self, key, value):
       if not key in self.__dict__:
-        self.__dict__["__count"] = self.__dict__["__count"] + 1
+        self.__dict__["__count"] += 1
       if isinstance(value, dict):
         self.__dict__[key] = Ar18.Struct(value, self)
+      elif isinstance(value, Ar18.Struct):
+        value.__dict__["__parent"] = self
+        self.__dict__[key] = value
       else:
         self.__dict__[key] = value
   
@@ -97,8 +95,11 @@ class Ar18:
         del self.__dict__[key]
 
     def __iter__(self):
-      return self.TeamIterator(self)
-  
+      return self.Iterator(self)
+
+    def __len__(self):
+      return self.count()
+
     def __repr__(self, indent=2):
       s_indent = " " * indent
       ret = "{\n"
@@ -116,7 +117,11 @@ class Ar18:
             ret += s_indent + "],\n"
           else:
             ret += s_indent + "\"" + key + "\": " + item.__repr__() + ",\n"
-      ret += " " * (indent - 2) + "},\n"
+      ret += " " * (indent - 2) + "}"
+      if self.parent():
+        ret += ",\n"
+      else:
+        ret += "\n"
       return ret
 
     def items(self):
@@ -127,6 +132,11 @@ class Ar18:
   
     def parent(self):
       return self.__dict__["__parent"]
+
+    def index(self, idx):
+      keys = list(self.__dict__)
+      # Skip internal items (__parent and __count).
+      return self.__dict__[keys[idx + 2]]
 
 def test():
   d = {"f":1,"g":{"h":7}}
