@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_13:18:15
+# ar18 Script version 2021-08-01_13:26:54
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -16,7 +16,7 @@ except:
     )
   parent_dir = os.path.abspath(os.path.dirname(__file__) + "/..")
   sys.path.append(parent_dir)
-  from Struct import Ar18
+  from Struct import Ar18, install_pip_package
   ar18 = Ar18.Struct()
   ar18.www.retrieve = retrieve_file
   ar18.pip.install = install_pip_package
