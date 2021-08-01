@@ -109,9 +109,14 @@ class Ar18:
         ]:
           if isinstance(item, Ar18.Struct):
             ret += s_indent + "\"" + key + "\": " + item.__repr__(indent + 2)
+          elif isinstance(item, list):
+            ret += s_indent + "\"" + key + "\": [\n"
+            for itm in item:
+              ret += " " * (indent + 2) + itm.__repr__() + ",\n"
+            ret += s_indent + "],\n"
           else:
-            ret += s_indent + "\"" + key + "\": " + item.__repr__() + "\n"
-      ret += " " * (indent - 2) + "}\n"
+            ret += s_indent + "\"" + key + "\": " + item.__repr__() + ",\n"
+      ret += " " * (indent - 2) + "},\n"
       return ret
 
     def items(self):
