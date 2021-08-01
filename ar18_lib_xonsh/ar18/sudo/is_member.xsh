@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_10:28:19
+# ar18 Script version 2021-08-01_12:12:33
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -9,7 +9,7 @@ except:
 
   def temp_func(silent:int=0):
     ret = False
-    res = !(sudo -vn e>o)
+    res = !(sudo -vnk e>o)
     $RAISE_SUBPROC_ERROR = False
     res = str(res)
     $RAISE_SUBPROC_ERROR = True
