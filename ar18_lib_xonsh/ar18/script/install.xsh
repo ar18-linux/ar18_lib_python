@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_23:22:53
+# ar18 Script version 2021-08-01_23:26:16
 # Function template version 2021-08-01_09:52:50
 import os.path
 
@@ -13,7 +13,7 @@ except:
     ar18.sudo.ask_pass()
 
     ar18.script.include("sudo.exec_as")
-
+    print("script_dir: ", script_dir)
     ar18.sudo.exec_as(f"mkdir -p '{install_dir}'")
     ar18.sudo.exec_as(f"rm -rf '{install_dir}/{module_name}'")
     ar18.sudo.exec_as(f"cp -rf '{script_dir}/{module_name}' '{install_dir}/{module_name}'")
