@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_23:34:39
+# ar18 Script version 2021-08-01_09:52:18
 # Function template version 2021-07-31_15:39:48
 
 try:
@@ -15,6 +15,7 @@ except:
     ar18.script.include("sudo.is_member")
     if not "AR18_SUDO_PASSWORD" in ${...}:
       if not silent:
+
         print("Testing for sudo capabilities...")
       if ar18.sudo.is_member(silent):
         if not silent:
