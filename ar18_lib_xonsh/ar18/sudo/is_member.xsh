@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_10:03:35
+# ar18 Script version 2021-08-01_10:28:19
 # Function template version 2021-08-01_09:52:50
 
 try:
