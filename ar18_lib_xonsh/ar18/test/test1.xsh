@@ -1,6 +1,6 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_23:34:39
-# Script template version 2021-07-31_15:39:48
+# ar18 Script version 2021-08-01_10:03:35
+# Script template version 2021-08-01_09:52:50
 
 import os
 import getpass
@@ -13,7 +13,8 @@ $XONSH_SHOW_TRACEBACK = True
 
 @events.on_exit
 def test():
-  rm -rf @(f"/tmp/xonsh/{$AR18_PARENT_PROCESS}")
+  if os.getpid() == $AR18_PARENT_PROCESS:
+    rm -rf @($AR18_TEMP_DIR)
   print("on_exit")
 
 
@@ -33,13 +34,18 @@ def script_dir():
   return os.path.abspath(os.path.dirname(__file__))
 
 
+def script_path():
+  return os.path.abspath(__file__)
+
+
 def get_environment():
   pass
 
 
 def retrieve_file(url, dest_dir):
   old_cwd = os.getcwd()
-  cd @(os.path.dirname(dest_dir))
+  mkdir -p @(dest_dir)
+  cd @(dest_dir)
   curl -f -O @(url)
   cd @(old_cwd)
   

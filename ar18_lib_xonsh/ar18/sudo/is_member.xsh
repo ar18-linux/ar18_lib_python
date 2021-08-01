@@ -1,6 +1,6 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-07-31_23:34:39
-# Function template version 2021-07-31_15:39:48
+# ar18 Script version 2021-08-01_10:03:35
+# Function template version 2021-08-01_09:52:50
 
 try:
   assert ar18.sudo.is_member

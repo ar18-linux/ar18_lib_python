@@ -1,9 +1,9 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_09:52:31
-# Function template version 2021-07-31_15:39:48
+# ar18 Script version 2021-08-01_10:03:35
+# Function template version 2021-08-01_09:52:50
 
 try:
-  assert ar18.sudo.ask_for_password
+  assert ar18.sudo.ask_pass
 except:
 ##############################FUNCTION_START#################################
 
@@ -39,4 +39,4 @@ except:
 
 ###############################FUNCTION_END##################################
   print("assigning")
-  ar18.sudo.ask_for_password = temp_func
+  ar18.sudo.ask_pass = temp_func
