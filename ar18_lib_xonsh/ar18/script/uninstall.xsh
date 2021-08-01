@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_23:51:29
+# ar18 Script version 2021-08-02_00:03:10
 # Function template version 2021-08-01_09:52:50
 import os.path
 
@@ -28,6 +28,7 @@ except:
       auto_start = f"/home/{user_name}/.config/ar18/autostarts/{module_name}.sh"
       ar18.sudo.exec_as(f"rm -f {auto_start}")
 
+    ar18.sudo.exec_as(f"rm -f '/usr/bin/ar18.{module_name}/'*")
     ar18.sudo.exec_as(f"rm -rf '{install_dir}/{module_name}'")
 
 ###############################FUNCTION_END##################################
