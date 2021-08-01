@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_23:08:26
+# ar18 Script version 2021-08-01_23:10:21
 # Function template version 2021-08-01_09:52:50
 import os.path
 
@@ -8,7 +8,7 @@ try:
 except:
 ##############################FUNCTION_START#################################
 
-  def temp_func(install_dir, module_name, script_dir, user_name, deployment_target):
+  def temp_func(install_dir:str, module_name:str, script_dir:str, user_name:str, deployment_target:str=""):
     ar18.script.include("sudo.ask_pass")
     ar18.sudo.ask_pass()
 
