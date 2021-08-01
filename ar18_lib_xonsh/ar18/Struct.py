@@ -98,7 +98,7 @@ class Ar18:
       return self.Iterator(self)
 
     def __len__(self):
-      return self.count()
+      return self.__dict__["__count"]
 
     def __repr__(self, indent=2):
       s_indent = " " * indent
@@ -127,15 +127,12 @@ class Ar18:
     def items(self):
       return {k: v for k, v in self.__dict__.items() if not k.startswith("__")}.items()
   
-    def count(self):
-      return self.__dict__["__count"]
-  
     def parent(self):
       return self.__dict__["__parent"]
 
     def index(self, idx):
       keys = list(self.__dict__)
-      # Skip internal items (__parent and __count).
+      # Skip internal items (__parent and __count), which should come before the actual items.
       return self.__dict__[keys[idx + 2]]
 
 def test():
@@ -188,15 +185,15 @@ def test():
   assert not t
   t = s["h"]["j"]
   assert not t
-  assert s.count() == 7
+  assert len(s) == 7
   s["65"] = {"78": 90}
-  assert s.count() == 8
+  assert len(s) == 8
   s["65"] = 66
-  assert s.count() == 8
+  assert len(s) == 8
   del s["65"]
-  assert s.count() == 7
+  assert len(s) == 7
   del s.f
-  assert s.count() == 6
+  assert len(s) == 6
   s.array = [1,2]
   assert len(s.array) == 2
 
