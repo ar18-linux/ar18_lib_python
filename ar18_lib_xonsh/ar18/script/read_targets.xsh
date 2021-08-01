@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_10:28:19
+# ar18 Script version 2021-08-01_13:18:15
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -9,10 +9,10 @@ except:
 
   def temp_func():
     file_path = f"/home/{$AR18_USER_NAME}/.config/ar18/INSTALLED_TARGETS"
-    if os.path.exists(file_path):
-      ret = Ar18.Struct(file_path)
-    else:
-      raise Exception("Cannot find file to determine installed_target")
+    if not os.path.exists(file_path):
+      file_path = None
+    ret = Ar18.Struct(file_path)
+
     return ret
 
 ###############################FUNCTION_END##################################

@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_10:28:19
+# ar18 Script version 2021-08-01_13:18:15
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -19,6 +19,8 @@ except:
   from Struct import Ar18
   ar18 = Ar18.Struct()
   ar18.www.retrieve = retrieve_file
+  ar18.pip.install = install_pip_package
+
   def temp_func(item:str):
     module_name, function_name = item.split(".")
     file_path = parent_dir + "/" + module_name + "/" + function_name + ".xsh"

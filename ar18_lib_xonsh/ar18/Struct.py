@@ -1,16 +1,28 @@
 #! /usr/bin/env xonsh
 
 import weakref
+import subprocess
+import sys
+
+def install_pip_package(package):
+  subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
 
 class Ar18:
   class Struct:
+    try:
+      import json5
+    except ModuleNotFoundError:
+      install_pip_package("json5")
+      import json5
     def __init__(self, object=None, parent=None):
       self.__dict__["__count"] = 0
       if parent:
         self.__dict__["__parent"] = weakref.ref(parent)
       else:
         self.__dict__["__parent"] = None
+      if isinstance(object, str):
+        object = self.json5.loads(open(object).read())
       if isinstance(object, dict):
         for key, item in object.items():
           if isinstance(item, dict):
