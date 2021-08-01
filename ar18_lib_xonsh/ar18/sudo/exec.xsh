@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_10:03:35
+# ar18 Script version 2021-08-01_10:10:45
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -12,7 +12,7 @@ except:
     for arg in args:
       arg = arg.replace('"', '\\\"')
       command = f'{command} "{arg}"'
-    echo @(AR18_SUDO_PASSWORD) | eval @(command)
+    echo @($AR18_SUDO_PASSWORD) | eval @(command)
     #echo "${ar18_sudo_password}" | eval "LD_PRELOAD= sudo -Sk -p ' ' ${command}"
     #echo ""
 
