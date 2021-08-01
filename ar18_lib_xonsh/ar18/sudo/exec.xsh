@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_10:41:13
+# ar18 Script version 2021-08-01_11:13:17
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -8,14 +8,11 @@ except:
 ##############################FUNCTION_START#################################
 
   def temp_func(*args):
-    command = "LD_PRELOAD= sudo -Sk -p ' '"
+    command = f"echo {$AR18_SUDO_PASSWORD} | env LD_PRELOAD= sudo -Sk -p ' '"
     for arg in args:
       arg = arg.replace('"', '\\\"')
       command = f'{command} "{arg}"'
-    old_setting = $FOREIGN_ALIASES_SUPPRESS_SKIP_MESSAGE
-    $FOREIGN_ALIASES_SUPPRESS_SKIP_MESSAGE = True
-    echo @($AR18_SUDO_PASSWORD) | bash-source eval @(command)
-    $FOREIGN_ALIASES_SUPPRESS_SKIP_MESSAGE = old_setting
+    evalx(command)
 
 ###############################FUNCTION_END##################################
   print("assigning")
