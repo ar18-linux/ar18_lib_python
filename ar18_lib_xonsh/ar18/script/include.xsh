@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_13:26:54
+# ar18 Script version 2021-08-01_23:16:33
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -22,6 +22,7 @@ except:
   ar18.pip.install = install_pip_package
 
   def temp_func(item:str):
+    print(f"retrieving {item}")
     module_name, function_name = item.split(".")
     file_path = parent_dir + "/" + module_name + "/" + function_name + ".xsh"
     if not os.path.exists(file_path):
