@@ -1,10 +1,10 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_23:50:03
+# ar18 Script version 2021-08-01_23:51:29
 # Function template version 2021-08-01_09:52:50
 import os.path
 
 try:
-  assert ar18.script.install
+  assert ar18.script.uninstall
 except:
 ##############################FUNCTION_START#################################
 
@@ -32,4 +32,4 @@ except:
 
 ###############################FUNCTION_END##################################
   print("assigning")
-  ar18.script.install = temp_func
+  ar18.script.uninstall = temp_func
