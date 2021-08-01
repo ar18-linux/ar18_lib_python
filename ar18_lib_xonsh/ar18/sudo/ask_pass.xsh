@@ -29,10 +29,12 @@ except:
         sudo_passwd = getpass.getpass("Enter your password: ")
       if not silent:
         print("Testing the password with 'sudo -Sk id'")
-      if not !(echo @(sudo_passwd) | sudo -Sk -p ' ' id):
+      $RAISE_SUBPROC_ERROR = False
+      if not !(echo @(sudo_passwd) | sudo -Sk -p ' ' id a>/dev/null):
         if not silent:
           print("[ERROR]: Password is wrong (keyboard layout wrong, CAPS lock on?), or maybe your account is locked due to too many wrong password attempts. In this case, reset the counter with '#faillock --reset'")
         exit(1)
+      $RAISE_SUBPROC_ERROR = True
       $AR18_SUDO_PASSWORD = sudo_passwd
 
 ###############################FUNCTION_END##################################
