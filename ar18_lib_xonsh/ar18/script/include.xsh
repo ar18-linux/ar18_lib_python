@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-02_23:07:28
+# ar18 Script version 2021-08-02_23:33:34
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -20,6 +20,8 @@ except:
   ar18 = Ar18.Struct()
   ar18.www.retrieve = retrieve_file
   ar18.pip.install = install_pip_package
+  ar18.log.entry = ar18_log_entry
+  ar18.log.exit = ar18_log_exit
   $AR18_INCLUDED = []
 
   def temp_func(item:str):
