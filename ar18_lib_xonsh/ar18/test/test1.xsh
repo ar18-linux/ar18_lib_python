@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_10:28:19
+# ar18 Script version 2021-08-02_22:46:17
 # Script template version 2021-08-01_09:52:50
 
 import os
@@ -82,48 +82,33 @@ print("xsh1")
 print(script_dir())
 print("username",$AR18_USER_NAME,__file__)
 ar18.script.include("sudo.is_member")
-ar18.script.include("sudo.ask_for_password")
-ar18.script.include("sudo.exec")
+ar18.script.include("sudo.ask_pass")
+g=ar18.sudo.ask_pass()
+print("hj",g)
+exit(0)
+ar18.script.include("sudo.exec_as")
 res=ar18.sudo.is_member()
 print("res",res)
-ar18.sudo.ask_for_password()
+print("foo")
+with open(os.devnull, "w") as devnull:
+  #sys.stdout = open(os.devnull, "w")
+  #sys.stderr = open(os.devnull, "w")
+  try:
+    os.system("stty -echo >/dev/null 2>&1")
+    password = input('Enter Password:')
+    os.system("stty echo >/dev/null 2>&1")
+  finally:
+    pass
+    #sys.stdout = sys.__stdout__
+    #sys.stderr = sys.__stderr__
+
+#os.system("stty -echo")
+#password = input('Enter Password:')
+#os.system("stty echo")
+print("gg",password)
+#ar18.sudo.ask_pass()
 #ar18.sudo.exec("mkdir", "/tmp/foo45")
 exit(0)
-source @(f"{script_dir()}/test2/test2.xsh")
-print(script_dir())
-f3()
-print("exit1")
-exit(0)
-
-
-
-
-
-
-
-echo @(os.path.abspath(sys.argv[0]))
-
-script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-script_path = os.path.abspath(sys.argv[0])
-print(script_dir)
-echo @(script_dir)
-echo ${script_dir}
-
-source @(f"{script_dir}/../Struct.xsh")
-test()
-exit(0)
-d={"s":5,"h":{"g":7}}
-print(d)
-s = Struct(d)
-print(s["h"]["g"])
-print(s)
-exit(0)
-s.boo = "hoo"
-s["67"] = "huju"
-s["foo"] = {"tu":2}
-exit(0)
-#ar18.script.ximport("version_check")
-#source @(f"{script_dir}/../script/import.xsh")
 
 ##################################SCRIPT_END###################################
 
