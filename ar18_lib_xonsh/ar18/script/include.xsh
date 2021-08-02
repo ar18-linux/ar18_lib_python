@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-02_22:57:48
+# ar18 Script version 2021-08-02_23:07:28
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -20,24 +20,27 @@ except:
   ar18 = Ar18.Struct()
   ar18.www.retrieve = retrieve_file
   ar18.pip.install = install_pip_package
+  $AR18_INCLUDED = []
 
   def temp_func(item:str):
-    print(f"retrieving {item}")
-    module_name, function_name = item.split(".")
-    file_path = parent_dir + "/" + module_name + "/" + function_name + ".xsh"
-    if not os.path.exists(file_path):
-      ar18.www.retrieve(
-        f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/{module_name}/{function_name}.xsh",
-        os.path.dirname(file_path)
-      )
-    file_version = ""
-    fpx = open(file_path)
-    for idx, line in enumerate(fpx):
-      if idx == 1:
-        file_version = line
-        break
-    print(file_version)
-    source @(file_path)
+    if not item in $AR18_INCLUDED:
+      $AR18_INCLUDED.append(item)
+      module_name, function_name = item.split(".")
+      file_path = parent_dir + "/" + module_name + "/" + function_name + ".xsh"
+      if not os.path.exists(file_path):
+        print(f"retrieving {item}")
+        ar18.www.retrieve(
+          f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/{module_name}/{function_name}.xsh",
+          os.path.dirname(file_path)
+        )
+      file_version = ""
+      fpx = open(file_path)
+      for idx, line in enumerate(fpx):
+        if idx == 1:
+          file_version = line
+          break
+      print(file_version)
+      source @(file_path)
 
 ###############################FUNCTION_END##################################
   print("assigning")
