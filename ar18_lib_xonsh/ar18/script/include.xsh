@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-01_23:16:33
+# ar18 Script version 2021-08-02_22:57:48
 # Function template version 2021-08-01_09:52:50
 
 try:
@@ -30,6 +30,13 @@ except:
         f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/{module_name}/{function_name}.xsh",
         os.path.dirname(file_path)
       )
+    file_version = ""
+    fpx = open(file_path)
+    for idx, line in enumerate(fpx):
+      if idx == 1:
+        file_version = line
+        break
+    print(file_version)
     source @(file_path)
 
 ###############################FUNCTION_END##################################
