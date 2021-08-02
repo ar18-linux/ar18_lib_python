@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-02_00:36:30
+# ar18 Script version 2021-08-02_08:16:07
 # Function template version 2021-08-01_09:52:50
 import os.path
 
@@ -17,6 +17,7 @@ except:
     ar18.sudo.exec_as(f"rm -rf '{install_dir}/{module_name}'")
     r=ar18.sudo.exec_as(f"cp -rf '{script_dir}' '{install_dir}/{module_name}'")
     print("ec: ",r.executed_cmd)
+    ls @(f"{install_dir}/{module_name}/{module_name}")
     for file_name in os.listdir(f"{install_dir}/{module_name}/{module_name}"):
       if file_name[-4:] == ".xsh":
         ar18.sudo.exec_as(f"ln -s '{install_dir}/{module_name}/{module_name}/{os.path.abspath(file_name)}' '/usr/bin/ar18.{module_name}.{file_name[0:-4]}'")
