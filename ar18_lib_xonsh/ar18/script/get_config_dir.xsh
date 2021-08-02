@@ -1,7 +1,6 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-02_23:54:40
-# Function template version 2021-08-01_09:52:50
-import os.path
+# ar18 Script version 2021-08-03_00:26:05
+# Function template version 2021-08-03_00:24:44
 
 try:
   assert ar18.script.get_config_dir

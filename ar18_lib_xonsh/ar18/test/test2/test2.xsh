@@ -1,11 +1,12 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-02_23:33:34
-# Script template version 2021-08-01_09:52:50
+# ar18 Script version 2021-08-03_00:26:05
+# Script template version 2021-08-03_00:24:44
 
 if not "AR18_PARENT_PROCESS" in {...}:
   import os
   import getpass
   import sys
+  import colorama
   
   $AR18_LIB_XONSH = "ar18_lib_xonsh"
   
@@ -23,6 +24,19 @@ if not "AR18_PARENT_PROCESS" in {...}:
     if os.getpid() == $AR18_PARENT_PROCESS:
       rm -rf @($AR18_TEMP_DIR)
     print("on_exit")
+    ar18.log.exit()
+    
+    
+  def ar18_log_entry():
+    print(f"{colorama.Back.WHITE}{colorama.Fore.BLACK}[*]{colorama.Style.RESET_ALL} {script_path()}")
+
+    
+  def ar18_log_exit():
+    print(f"{colorama.Back.WHITE}{colorama.Fore.BLACK}[~]{colorama.Style.RESET_ALL} {script_path()}")
+    
+    
+  def module_name():
+    return os.path.basename(script_dir())
   
   
   def get_user_name():
@@ -38,11 +52,11 @@ if not "AR18_PARENT_PROCESS" in {...}:
   
   
   def script_dir():
-    return os.path.realpath(os.path.dirname(__file__))
+    return os.path.dirname(os.path.realpath(__file__))
   
   
   def script_path():
-    return os.path.abspath(__file__)
+    return os.path.realpath(__file__)
   
   
   def get_environment():
@@ -78,12 +92,13 @@ if not "AR18_PARENT_PROCESS" in {...}:
           os.path.dirname(file_path)
         )
       source @(file_path)
-      print(45)
   
-  
+  ar18_log_entry()
   get_user_name()
   get_parent_process()
   import_include()
+else:
+  ar18.log.entry()
 #################################SCRIPT_START##################################
 def f3():
   print("f3")

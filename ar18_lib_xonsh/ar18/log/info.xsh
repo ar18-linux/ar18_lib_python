@@ -1,7 +1,6 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_00:12:24
-# Function template version 2021-08-01_09:52:50
-import os.path
+# ar18 Script version 2021-08-03_00:26:05
+# Function template version 2021-08-03_00:24:44
 
 try:
   assert ar18.log.info
@@ -9,9 +8,7 @@ except:
 ##############################FUNCTION_START#################################
 
   def temp_func(output:str):
-    ENDC = "\033[0m"
-    BLUE = "\e[44m"
-    print(f"{BLUE}[i]{ENDC} {output}")
+    print(f"{colorama.Back.BLUE}[i]{colorama.Style.RESET_ALL} {output}")
 
 ###############################FUNCTION_END##################################
   print("assigning")

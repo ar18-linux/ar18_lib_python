@@ -1,6 +1,6 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-02_22:46:17
-# Function template version 2021-08-01_09:52:50
+# ar18 Script version 2021-08-03_00:26:05
+# Function template version 2021-08-03_00:24:44
 
 try:
   assert ar18.sudo.ask_pass
