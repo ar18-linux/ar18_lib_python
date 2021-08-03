@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_21:19:42
+# ar18 Script version 2021-08-03_21:25:07
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -14,7 +14,7 @@ except:
       f"https://raw.githubusercontent.com/ar18-linux/{$AR18_LIB_XONSH}/master/{$AR18_LIB_XONSH}/ar18/Struct.py",
       os.path.dirname(file_path)
     )
-  parent_dir = os.path.abspath(os.path.dirname(__file__) + "/..")
+  parent_dir = os.path.abspath(f"{os.path.dirname(__file__)}/..")
   sys.path.append(parent_dir)
   from Struct import Ar18, install_pip_package
   ar18 = Ar18.Struct()
