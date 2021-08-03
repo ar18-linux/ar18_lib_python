@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_21:00:41
+# ar18 Script version 2021-08-03_21:02:23
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -29,7 +29,9 @@ except:
     echo @(f"{install_dir}") > @(f"/home/{user_name}/.config/ar18/{module_name}/INSTALL_DIR")
 
     script_config_dir = f"{script_dir}/${module_name}/config"
+    print("scd:",script_config_dir)
     if os.path.isdir(script_config_dir):
+      print(True)
       home_config_dir = f"/home/{user_name}/.config/ar18/{module_name}"
       mkdir -p @(home_config_dir)
       for file_path in os.path.listdir(script_config_dir):
