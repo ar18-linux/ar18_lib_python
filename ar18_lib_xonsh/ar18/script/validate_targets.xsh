@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-04_07:58:18
+# ar18 Script version 2021-08-04_22:56:59
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -7,13 +7,14 @@ try:
 except:
 ##############################FUNCTION_START#################################
 
+  ar18.script.include("script.check")
   def temp_func(config_dir:str, targets:list, init:bool=False):
     target_list = list(
       map(lambda x: x[:-6], list(
         filter(lambda x: x[-5:] == "json5", os.listdir(config_dir)))))
     if init:
-      assert len(targets) > 0, \
-        f"In init mode, at least one target must be provided. Available targets: {target_list}"
+      ar18.script.check(len(targets) > 0,
+        f"In init mode, at least one target must be provided. Available targets: {target_list}")
     for arg in targets:
       assert arg in target_list, f"{arg} is not a valid target, valid targets are {target_list}"
 
