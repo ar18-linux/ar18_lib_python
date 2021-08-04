@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_21:25:07
+# ar18 Script version 2021-08-04_07:58:18
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -26,6 +26,7 @@ except:
 
   def temp_func(item:str):
     if not item in $AR18_INCLUDED:
+      print(f"importing {item}")
       $AR18_INCLUDED.append(item)
       module_name, function_name = item.split(".")
       file_path = f"{parent_dir}/{module_name}/{function_name}.xsh"
@@ -52,5 +53,4 @@ except:
       source @(file_path)
 
 ###############################FUNCTION_END##################################
-  print("assigning")
   ar18.script.include = temp_func

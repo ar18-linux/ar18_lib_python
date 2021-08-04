@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_21:02:23
+# ar18 Script version 2021-08-04_07:58:18
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -14,11 +14,7 @@ except:
     ar18.script.include("sudo.exec_as")
     ar18.sudo.exec_as(f"mkdir -p '{install_dir}'")
     ar18.sudo.exec_as(f"rm -rf '{install_dir}/{module_name}'")
-    r=ar18.sudo.exec_as(f"cp -rf '{script_dir}' '{install_dir}/{module_name}'")
-    print("ec: ",r.executed_cmd)
-    import time
-    time.sleep(3)
-    ls @(f"{install_dir}/{module_name}/{module_name}")
+    ar18.sudo.exec_as(f"cp -rf '{script_dir}' '{install_dir}/{module_name}'")
     for file_name in os.listdir(f"{install_dir}/{module_name}/{module_name}"):
       if file_name[-4:] == ".xsh":
         ar18.sudo.exec_as(f"ln -s '{install_dir}/{module_name}/{module_name}/{os.path.basename(file_name)}' '/usr/bin/ar18.{module_name}.{file_name[0:-4]}'")
@@ -28,14 +24,13 @@ except:
     ar18.sudo.exec_as(f"chown {user_name}:{user_name} '/home/{user_name}/.config/ar18/{module_name}'")
     echo @(f"{install_dir}") > @(f"/home/{user_name}/.config/ar18/{module_name}/INSTALL_DIR")
 
-    script_config_dir = f"{script_dir}/${module_name}/config"
-    print("scd:",script_config_dir)
+    script_config_dir = f"{script_dir}/{module_name}/config"
     if os.path.isdir(script_config_dir):
-      print(True)
       home_config_dir = f"/home/{user_name}/.config/ar18/{module_name}"
       mkdir -p @(home_config_dir)
-      for file_path in os.path.listdir(script_config_dir):
+      for file_path in os.listdir(script_config_dir):
         base_name = os.path.basename(file_path)
+        file_path = f"{script_config_dir}/{base_name}"
         home_config_path = f"{home_config_dir}/{base_name}"
         if not os.path.isfile(home_config_path):
           cp @(file_path) @(home_config_path)
@@ -72,5 +67,4 @@ except:
       ar18.sudo.exec_as(f"chown root:{user_name} '{auto_start}'")
 
 ###############################FUNCTION_END##################################
-  print("assigning")
   ar18.script.install = temp_func

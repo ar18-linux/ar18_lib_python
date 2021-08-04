@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_00:26:05
+# ar18 Script version 2021-08-04_07:58:18
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -20,5 +20,4 @@ except:
     return True
 
 ###############################FUNCTION_END##################################
-  print("assigning")
   ar18.script.validate_targets = temp_func

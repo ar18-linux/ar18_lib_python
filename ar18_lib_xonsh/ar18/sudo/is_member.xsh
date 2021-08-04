@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_00:26:05
+# ar18 Script version 2021-08-04_07:58:18
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -21,5 +21,4 @@ except:
     return ret
 
 ###############################FUNCTION_END##################################
-  print("assigning")
   ar18.sudo.is_member = temp_func

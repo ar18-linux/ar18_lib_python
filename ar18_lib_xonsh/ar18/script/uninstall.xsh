@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_00:26:05
+# ar18 Script version 2021-08-04_07:58:18
 # Function template version 2021-08-03_00:24:44
 
 try:
@@ -27,10 +27,8 @@ except:
       auto_start = f"/home/{user_name}/.config/ar18/autostarts/{module_name}.sh"
       ar18.sudo.exec_as(f"rm -f {auto_start}")
 
-    r=ar18.sudo.exec_as(f"rm -f '/usr/bin/ar18.{module_name}'*")
-    print("ec: ",r.executed_cmd)
+    ar18.sudo.exec_as(f"rm -f '/usr/bin/ar18.{module_name}'*")
     ar18.sudo.exec_as(f"rm -rf '{install_dir}/{module_name}'")
 
 ###############################FUNCTION_END##################################
-  print("assigning")
   ar18.script.uninstall = temp_func

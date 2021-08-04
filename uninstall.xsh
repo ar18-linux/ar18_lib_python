@@ -109,9 +109,6 @@ ar18.sudo.ask_pass()
 ar18.script.include("script.uninstall")
 ar18.script.uninstall(install_dir, module_name, script_dir(), user_name)
 
-ar18.script.include("script.install")
-ar18.script.install(install_dir, module_name, script_dir(), user_name)
-
 ##################################SCRIPT_END###################################
 
 #end

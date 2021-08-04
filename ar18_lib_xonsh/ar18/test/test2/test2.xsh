@@ -1,5 +1,5 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-03_00:26:05
+# ar18 Script version 2021-08-04_07:58:18
 # Script template version 2021-08-03_00:24:44
 
 if not "AR18_PARENT_PROCESS" in {...}:
@@ -67,7 +67,7 @@ if not "AR18_PARENT_PROCESS" in {...}:
     old_cwd = os.getcwd()
     mkdir -p @(dest_dir)
     cd @(dest_dir)
-    curl -f -O @(url)
+    curl -f -O @(url) > /dev/null 2>&1
     cd @(old_cwd)
     
   
@@ -79,9 +79,9 @@ if not "AR18_PARENT_PROCESS" in {...}:
       # If it cannot be found, fetch it from github.com.
       install_dir_path = f"/home/{$AR18_USER_NAME}/.config/ar18/{$AR18_LIB_XONSH}/INSTALL_DIR"
       if os.path.exists(install_dir_path):
-        file_path = open(install_dir_path).read()
+        file_path = open(install_dir_path).read().strip()
         if os.path.exists(file_path):
-          file_path = f"{file_path}/{$AR18_LIB_XONSH}/ar18/script/include.xsh"
+          file_path = f"{file_path}/{$AR18_LIB_XONSH}/{$AR18_LIB_XONSH}/ar18/script/include.xsh"
       else:
         file_path = f"{$AR18_TEMP_DIR}/{$AR18_LIB_XONSH}/ar18/script/include.xsh"
         mkdir -p @(os.path.dirname(file_path))
