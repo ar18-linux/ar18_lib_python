@@ -1,21 +1,21 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-04_07:58:18
+# ar18 Script version 2021-08-05_08:58:53
 # Function template version 2021-08-03_00:24:44
 
 try:
   assert ar18.script.uninstall
 except:
 ##############################FUNCTION_START#################################
-
-  def temp_func(install_dir:str, module_name:str, script_dir:str, user_name:str, deployment_target:str=""):
+  def temp_func(module_name:str, user_name:str=None):
+    if not user_name:
+      user_name = $AR18_USER_NAME
     ar18.script.include("sudo.ask_pass")
     ar18.sudo.ask_pass()
 
     ar18.script.include("sudo.exec_as")
-
-    mkdir -p @(f"/home/{user_name}/.config/ar18/{module_name}")
-    ar18.sudo.exec_as(f"chown {user_name}:{user_name} '/home/{user_name}/.config/ar18/{module_name}'")
-    echo @(f"{install_dir}") > @(f"/home/{user_name}/.config/ar18/{module_name}/INSTALL_DIR")
+    
+    home_dir = f"/home/{user_name}/.config/ar18/{module_name}"
+    install_dir = open(f"{home_dir}/INSTALL_DIR", "r").read()
 
     service_file_path_install = f"{install_dir}/{module_name}/{module_name}.service"
     if os.path.isfile(service_file_path_install):
@@ -29,6 +29,14 @@ except:
 
     ar18.sudo.exec_as(f"rm -f '/usr/bin/ar18.{module_name}'*")
     ar18.sudo.exec_as(f"rm -rf '{install_dir}/{module_name}'")
+    
+    ar18.script.include("script.read_targets")
+    targets = ar18.script.read_targets()
+    del(targets[module_name])
+    
+    ar18.script.include("script.store_targets")
+    ar18.script.store_targets(targets)
+    rm -f @(f"{home_dir}/INSTALL_DIR")
 
 ###############################FUNCTION_END##################################
   ar18.script.uninstall = temp_func

@@ -1,12 +1,11 @@
 #! /usr/bin/env xonsh
-# ar18 Script version 2021-08-04_07:58:18
+# ar18 Script version 2021-08-05_08:58:53
 # Function template version 2021-08-03_00:24:44
 
 try:
   assert ar18.script.install
 except:
 ##############################FUNCTION_START#################################
-
   def temp_func(install_dir:str, module_name:str, script_dir:str, user_name:str, deployment_target:str=""):
     ar18.script.include("sudo.ask_pass")
     ar18.sudo.ask_pass()
@@ -65,6 +64,16 @@ except:
           out_file.write(content)
       ar18.sudo.exec_as(f"chmod 4750 '{auto_start}'")
       ar18.sudo.exec_as(f"chown root:{user_name} '{auto_start}'")
+      
+    ar18.script.include("script.read_targets")
+    targets = ar18.script.read_targets()
+    targets[module_name] = {
+      "install_dir": f"{install_dir}",
+      "install_date": f"{date_time()}"
+    }
+    
+    ar18.script.include("script.store_targets")
+    ar18.script.store_targets(targets)
 
 ###############################FUNCTION_END##################################
   ar18.script.install = temp_func

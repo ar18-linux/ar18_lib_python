@@ -42,7 +42,7 @@ class Ar18:
       if isinstance(object, str):
         try:
           object = self.json5.loads(open(object).read())
-        except ValueError:
+        except (ValueError, FileNotFoundError):
           object = None
       if isinstance(object, dict):
         for key, item in object.items():
@@ -134,6 +134,10 @@ class Ar18:
       keys = list(self.__dict__)
       # Skip internal items (__parent and __count), which should come before the actual items.
       return self.__dict__[keys[idx + 2]]
+    
+    def write(self, file_path:str):
+      with open(file_path, "w") as file:
+        file.write(str(self))
 
 def test():
   d = {"f":1,"g":{"h":7}}
