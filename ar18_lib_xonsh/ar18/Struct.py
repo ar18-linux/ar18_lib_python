@@ -58,6 +58,8 @@ class Ar18:
       return self.__setitem__(key, value)
   
     def __setitem__(self, key, value):
+      if key in Ar18.internals:
+        raise ValueError(f"Keyword [{key}] is reserved.")
       if isinstance(value, dict):
         self.__dict__[key] = Ar18.Struct(value, self)
       elif isinstance(value, Ar18.Struct):
@@ -81,7 +83,7 @@ class Ar18:
       return len(self) != 0
     
     def __contains__(self, item):
-      return item in self.__dict__
+      return item in self.dict()
     
     def __eq__(self, other):
       ret = True
@@ -165,6 +167,9 @@ class Ar18:
   
     def parent(self):
       return self.__dict__[Ar18.internals[0]]
+    
+    def has(self, key):
+      return key in self.dict()
 
     def index(self, idx):
       keys = list(self.__dict__)
@@ -177,6 +182,21 @@ class Ar18:
         
     def dict(self):
       return dict(filter(lambda elem: elem[0] not in Ar18.internals, self.__dict__.items()))
+    
+    def unique(self):
+      import numpy as np
+      ret = Ar18.Struct(self)
+      for key, value in ret.items():
+        if isinstance(value, list):
+          temp = []
+          for item in value:
+            if not item in temp:
+              temp.append(item)
+              ret[key] = temp
+        elif isinstance(value, Ar18.Struct):
+          ret[key] = value.unique()
+          
+      return ret
 
 def test():
   d = {"f":1,"g":{"h":7}}

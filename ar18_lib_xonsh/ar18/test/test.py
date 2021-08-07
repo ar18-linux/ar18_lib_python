@@ -5,6 +5,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + "/.."))
 
 from Struct import *
 test1 = Ar18.Struct("/home/nulysses/Projects/deploy/deploy/config/base.json5")
+g="shape" in test1.dict()
 test2 = Ar18.Struct("/home/nulysses/Projects/deploy/deploy/config/test.json5")
 test3 = Ar18.Struct("/home/nulysses/Projects/deploy/deploy/config/test.json5")
 test4 = Ar18.Struct(test3)
