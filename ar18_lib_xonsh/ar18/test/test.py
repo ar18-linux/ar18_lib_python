@@ -4,9 +4,13 @@ import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + "/.."))
 
 from Struct import *
-_test = Ar18.Struct("/home/nulysses/Projects/deploy/deploy/config/base.json5")
-del(_test.user_name)
-print(_test)
+test1 = Ar18.Struct("/home/nulysses/Projects/deploy/deploy/config/base.json5")
+test2 = Ar18.Struct("/home/nulysses/Projects/deploy/deploy/config/test.json5")
+test3 = Ar18.Struct("/home/nulysses/Projects/deploy/deploy/config/test.json5")
+test4 = Ar18.Struct(test3)
+test1+=test2
+test1.foo=test2
+test5=test1.unique()
 exit(0)
 _test.foo2 = 1
 assert _test

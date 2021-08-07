@@ -9,8 +9,11 @@ def install_pip_package(package):
 
 
 class Ar18:
+  internals = [
+    "__parent"
+  ]
   class Struct:
-    class Iterator:
+    class __Iterator:
       def __init__(self, parent):
         self.parent = parent
         self.index = 0
@@ -18,7 +21,6 @@ class Ar18:
 
       def __next__(self):
         if self.index < len(self.keys):
-          #print(self.keys[self.index][0:2])
           key = self.keys[self.index]
           self.index += 1
           if key[0:2] != "__":
@@ -29,21 +31,22 @@ class Ar18:
         raise StopIteration
 
     try:
-      import json5
+      import json5 as __json5
     except ModuleNotFoundError:
       install_pip_package("json5")
-      import json5
+      import json5 as __json5
     def __init__(self, object=None, parent=None):
-      self.__dict__["__count"] = 0
       if parent:
-        self.__dict__["__parent"] = weakref.ref(parent)
+        self.__dict__[Ar18.internals[0]] = weakref.ref(parent)
       else:
-        self.__dict__["__parent"] = None
+        self.__dict__[Ar18.internals[0]] = None
       if isinstance(object, str):
         try:
-          object = self.json5.loads(open(object).read())
+          object = self.__json5.loads(open(object).read())
         except (ValueError, FileNotFoundError):
           object = None
+      elif isinstance(object, Ar18.Struct):
+        object = object.dict()
       if isinstance(object, dict):
         for key, item in object.items():
           if isinstance(item, dict):
@@ -55,59 +58,92 @@ class Ar18:
       return self.__setitem__(key, value)
   
     def __setitem__(self, key, value):
-      if not key in self.__dict__:
-        self.__dict__["__count"] += 1
       if isinstance(value, dict):
         self.__dict__[key] = Ar18.Struct(value, self)
       elif isinstance(value, Ar18.Struct):
-        value.__dict__["__parent"] = self
+        value.__dict__[Ar18.internals[0]] = self
         self.__dict__[key] = value
       else:
         self.__dict__[key] = value
   
-    def __getitem__(self, item):
-      if item not in self.__dict__:
-        if self.__dict__["__parent"]:
-          return self.__dict__["__parent"]().__getitem__(item)
-        else:
-          self.__dict__.__setitem__(item, Ar18.Struct())
-      return self.__dict__[item]
-  
     def __getattr__(self, item):
-      if item not in self.__dict__:
-        if self.__dict__["__parent"]:
-          return self.__dict__["__parent"]().__getattr__(item)
+      return self.__getitem__(item)
+  
+    def __getitem__(self, item):
+      if not item in self.__dict__:
+        if self.__dict__[Ar18.internals[0]]:
+          return self.__dict__[Ar18.internals[0]].__getitem__(item)
         else:
-          self.__dict__.__setitem__(item, Ar18.Struct())
+          self.__dict__.__setitem__(item, Ar18.Struct(parent=self))
       return self.__dict__[item]
   
     def __bool__(self):
-      return self.__dict__["__count"] != 0
+      return len(self) != 0
+    
+    def __contains__(self, item):
+      return item in self.__dict__
+    
+    def __eq__(self, other):
+      ret = True
+      if len(self) != len(other):
+        ret = False
+      else:
+        for key, value in self.items():
+          if self[key] != other[key]:
+            ret = False
+            break
+            
+      return ret
+    
+    def __gt__(self, other):
+      return len(self) > len(other)
+    
+    def __ge__(self, other):
+      return len(self) >= len(other)
+    
+    def __lt__(self, other):
+      return len(self) < len(other)
+    
+    def __le__(self, other):
+      return len(self) <= len(other)
+    
+    def __add__(self, other):
+      ret = Ar18.Struct(self)
+      for key, value in other.items():
+        if not key in ret:
+          ret[key] = value
+        else:
+          if type(ret[key]) != type(value):
+            raise ValueError("Same key, different type.")
+          if isinstance(value, (str,int,float,bool)):
+            if ret[key] != value:
+              raise ValueError("Same key, different value.")
+          elif not isinstance(value, (type(None))):
+            if ret[key] != value:
+              ret[key] += value
+            
+      return ret
+            
   
     def __delitem__(self, key):
       if key in self.__dict__:
-        self.__dict__["__count"] = self.__dict__["__count"] - 1
         del self.__dict__[key]
   
     def __delattr__(self, key):
       if key in self.__dict__:
-        self.__dict__["__count"] = self.__dict__["__count"] - 1
         del self.__dict__[key]
 
     def __iter__(self):
-      return self.Iterator(self)
+      return self.__Iterator(self)
 
     def __len__(self):
-      return self.__dict__["__count"]
+      return len(self.__dict__) - len(Ar18.internals)
 
     def __repr__(self, indent=2):
       s_indent = " " * indent
       ret = "{\n"
       for key, item in self.__dict__.items():
-        if key not in [
-          "__parent",
-          "__count"
-        ]:
+        if key not in Ar18.internals:
           if isinstance(item, Ar18.Struct):
             ret += s_indent + "\"" + key + "\": " + item.__repr__(indent + 2)
           elif isinstance(item, list):
@@ -125,19 +161,22 @@ class Ar18:
       return ret
 
     def items(self):
-      return {k: v for k, v in self.__dict__.items() if not k.startswith("__")}.items()
+      return {k: v for k, v in self.__dict__.items() if not k in Ar18.internals}.items()
   
     def parent(self):
-      return self.__dict__["__parent"]
+      return self.__dict__[Ar18.internals[0]]
 
     def index(self, idx):
       keys = list(self.__dict__)
-      # Skip internal items (__parent and __count), which should come before the actual items.
-      return self.__dict__[keys[idx + 2]]
+      # Skip internal items, which should come before the actual items.
+      return self.__dict__[keys[idx + len(Ar18.internals)]]
     
     def write(self, file_path:str):
       with open(file_path, "w") as file:
         file.write(str(self))
+        
+    def dict(self):
+      return dict(filter(lambda elem: elem[0] not in Ar18.internals, self.__dict__.items()))
 
 def test():
   d = {"f":1,"g":{"h":7}}
@@ -146,6 +185,8 @@ def test():
   assert s["f"] == 1
   assert s.g.h == 7
   assert s["g"]["h"] == 7
+  shape = Ar18.Struct()
+  assert not shape.shape.shape
   s.f = 2
   assert s.f == 2
   assert s["f"] == 2
